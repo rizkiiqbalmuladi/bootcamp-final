@@ -89,4 +89,34 @@ class CrudGuruTest extends TestCase
             'kelas_id' => 1
         ]);
     }
+
+    /** @test */
+    public function user_can_update_user()
+    {
+        Role::create([
+            'name' => 'admin'
+        ]);
+
+        Role::create([
+            'name' => 'guru'
+        ]);
+
+        $user = User::create([
+            'name' => 'Admin',
+            'username' => 'Rizki Iqbal',
+            'alamat' => 'Caringin',
+            'password' => bcrypt('password'),
+            'role_id' => 1,
+        ]);
+
+        Kelas::create([
+            'name' => 'RPL 1',
+        ]);
+
+        $this->actingAs($user);
+
+        $this->visitRoute('user.edit', $user);
+
+        // lanjutkan
+    }
 }
