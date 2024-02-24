@@ -45,12 +45,34 @@ class CrudSekolahTest extends TestCase
      */
     public function user_can_edit_kehadiran()
     {
+        Role::create([
+            'name' => 'admin',
+        ]);
+        $user = User::create([
+            'name' => 'test',
+            'username' => 'test',
+            'alamat' => 'test',
+            'password' => bcrypt('test'),
+            'role_id' => 1,
+        ]);
+
         $sekolah = Sekolah::create([
             'name' => 'Sekolah Test',
             'address' => 'Address Test',
             'phone' => 'Phone Test',
         ]);
-        $this->visit('sekolah/edit/' . $sekolah->id);
-        $this->seeText('Edit Sekolah');
+        $this->actingAs($user);
+        $this->visitRoute('sekolah.edit', $sekolah);
+        $this->submitForm('Submit', [
+            'name' => 'Sekolah Test Edit',
+            'address' => 'Address Test Edit',
+            'phone' => 'Phone Test Edit',
+        ]);
+        $this->seeRouteIs('sekolah.index');
+        $this->seeInDatabase('sekolahs', [
+            'name' => 'Sekolah Test Edit',
+            'address' => 'Address Test Edit',
+            'phone' => 'Phone Test Edit',
+        ]);
     }
 }

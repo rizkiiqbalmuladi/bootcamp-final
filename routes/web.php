@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/pertemuan/create', [PertemuanController::class, 'store'])->name('pertemuan.store');
     Route::put('/pertemuan/edit/{pertemuan}', [PertemuanController::class, 'update'])->name('pertemuan.update');
     Route::get('/pertemuan/edit/{pertemuan}', [PertemuanController::class, 'edit'])->name('pertemuan.edit');
+    Route::delete('/pertemuan/delete/{pertemuan}', [PertemuanController::class, 'destroy'])->name('pertemuan.destroy');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 

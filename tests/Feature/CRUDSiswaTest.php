@@ -95,4 +95,85 @@ class CRUDSiswaTest extends TestCase
             'kelas_id' => 1
         ]);
     }
+    /** @test */
+    public function user_can_update_siswa()
+    {
+        Role::create([
+            'name' => 'admin'
+        ]);
+
+        Role::create([
+            'name' => 'guru'
+        ]);
+
+        $user = User::create([
+            'name' => 'Admin',
+            'username' => 'Rizki Iqbal',
+            'alamat' => 'Caringin',
+            'password' => bcrypt('password'),
+            'role_id' => 1,
+        ]);
+
+        Kelas::create([
+            'name' => 'RPL 1',
+        ]);
+
+        $this->actingAs($user);
+
+        $this->visitRoute('user.edit', $user);
+        $this->submitForm('Submit', [
+            'name' => 'Admin Edited',
+            'username' => 'Rizki Iqbal Edited',
+            'alamat' => 'Caringin Edited',
+            'password' => bcrypt('password'),
+            'role_id' => 2,
+        ]);
+        $this->seeRouteIs('guru.index');
+        $this->seeInDatabase('users', [
+            'name' => 'Admin Edited',
+            'username' => 'Rizki Iqbal Edited',
+            'alamat' => 'Caringin Edited',
+            'role_id' => 2,
+        ]);
+    }
+    /** @test  */
+    public function user_can_delete_siswa()
+    {
+        Role::create([
+            'name' => 'admin'
+        ]);
+
+        Role::create([
+            'name' => 'guru'
+        ]);
+        Role::create([
+            'name' => 'siswa'
+        ]);
+
+        $user = User::create([
+            'name' => 'Admin',
+            'username' => 'Rizki Iqbal',
+            'alamat' => 'Caringin',
+            'password' => bcrypt('password'),
+            'role_id' => 1,
+        ]);
+
+        $user2 = User::create([
+            'name' => 'Rizki Iqbal Muladi',
+            'username' => 'Rizki Iqbal Muladi',
+            'alamat' => 'Caringin',
+            'password' => bcrypt('password'),
+            'role_id' => 3,
+        ]);
+        $this->actingAs($user);
+
+        $this->visitRoute('siswa.index');
+        $this->seeText($user2->name);
+        // Hapus user2
+        $this->delete(route('user.destroy', $user2->id));
+
+        // Pastikan user2 sudah dihapus
+        $this->visitRoute('guru.index');
+        $this->dontSeeText($user2->name);
+    }
 }

@@ -27,6 +27,11 @@ class KehadiranController extends Controller
     {
         return view('dashboard.kehadiran.edit', ['kehadiran' => $kehadiran, 'pertemuan' => Pertemuan::all(), 'users' => User::all()]);
     }
+    public function update(Request $request, Kehadiran $kehadiran)
+    {
+        $kehadiran->update($request->all());
+        return redirect()->route('kehadiran.index');
+    }
     public function destroy(Kehadiran $kehadiran)
     {
         $kehadiran->delete();
