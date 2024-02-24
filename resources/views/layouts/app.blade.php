@@ -33,15 +33,16 @@
                                 <a class="nav-link {{ request()->routeIs('siswa.*') ? 'active' : '' }}"
                                     href="/siswa">Siswa</a>
                             </li>
+                        @elseif (auth()->user()->role_id === 2)
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('pertemuan.*') ? 'active' : '' }}"
+                                    href="/pertemuan">Pertemuan</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('kehadiran.*') ? 'active' : '' }}"
+                                    href="/kehadiran">Kehadiran</a>
+                            </li>
                         @endif
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('pertemuan.*') ? 'active' : '' }}"
-                                href="/pertemuan">Pertemuan</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('kehadiran.*') ? 'active' : '' }}"
-                                href="/kehadiran">Kehadiran</a>
-                        </li>
                     </ul>
                 </div>
                 <!-- Button di pojok kanan -->
