@@ -8,6 +8,7 @@ use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\PertemuanController;
 use App\Http\Controllers\DashboardGuruController;
 use App\Http\Controllers\DashboardSiswaController;
+use App\Http\Controllers\SarprasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pertemuan/edit/{pertemuan}', [PertemuanController::class, 'edit'])->name('pertemuan.edit');
     Route::delete('/pertemuan/delete/{pertemuan}', [PertemuanController::class, 'destroy'])->name('pertemuan.destroy');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/sarpras', [SarprasController::class, 'index'])->name('sarpras.index');
 });
 
 Route::get('/login', [LoginController::class, 'index'])->middleware('guest')->name('login');
