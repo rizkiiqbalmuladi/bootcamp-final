@@ -46,6 +46,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/pertemuan/delete/{pertemuan}', [PertemuanController::class, 'destroy'])->name('pertemuan.destroy');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/sarpras', [SarprasController::class, 'index'])->name('sarpras.index');
+    Route::get('/sarpras/create', [SarprasController::class, 'create'])->name('sarpras.create');
+    Route::post('/sarpras/create', [SarprasController::class, 'store'])->name('sarpras.store');
+    Route::get('/sarpras/edit/{sarpras}', [SarprasController::class, 'edit'])->name('sarpras.edit');
+    Route::put('/sarpras/edit/{sarpras}', [SarprasController::class, 'update'])->name('sarpras.update');
+    Route::delete('/sarpras/destroy/{sarpras}', [SarprasController::class, 'destroy'])->name('sarpras.destroy');
 });
 
 Route::get('/login', [LoginController::class, 'index'])->middleware('guest')->name('login');
