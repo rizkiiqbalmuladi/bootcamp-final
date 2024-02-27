@@ -5,18 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Kelas;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class DashboardGuruController extends Controller
 {
     public $role_id;
-    public function __construct()
+    protected $userService;
+    public function __construct(UserService $userService)
     {
         $this->role_id = 2;
+        $this->userService = $userService;
     }
     public function index()
     {
-        $user = User::with(['role', 'kelas'])->where('role_id', 'like', $this->role_id)->get();
+        $user = $this->userService->getUserByRoleId($this->role_id);
         return view('dashboard.guru.index', ['user' => $user]);
     }
     public function create()
@@ -34,7 +37,7 @@ class DashboardGuruController extends Controller
             'kelas_id' => 'required'
         ]);
         $validatedData['password'] = bcrypt($validatedData['password']);
-        User::create($validatedData);
+        $this->userService->createUser($validatedData);
         return redirect('/guru')->with('success', 'Data berhasil ditambahkan!');
     }
     public function edit(User $user)
@@ -43,19 +46,12 @@ class DashboardGuruController extends Controller
     }
     public function update(Request $request, User $user)
     {
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->username = $request->username;
-        $user->alamat = $request->alamat;
-        $user->role_id = $request->role_id;
-        $user->kelas_id = $request->kelas_id;
-        $user->password = bcrypt($request->password);
-        $user->save();
+        $this->userService->updateUser($request->all(), $user);
         return redirect()->route('guru.index');
     }
     public function destroy(User $user)
     {
-        $user->delete();
+        $this->userService->deleteUser($user);
         return redirect()->route('guru.index');
     }
 }
