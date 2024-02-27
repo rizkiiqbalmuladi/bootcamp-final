@@ -4,13 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelas;
 use App\Models\Pertemuan;
+use App\Services\PertemuanService;
 use Illuminate\Http\Request;
 
 class PertemuanController extends Controller
 {
+    protected $pertemuanService;
+    public function __construct(PertemuanService $pertemuanService)
+    {
+        $this->pertemuanService = $pertemuanService;
+    }
     public function index()
     {
-        $pertemuan = Pertemuan::with(['user', 'kelas'])->get();
+        $pertemuan = $this->pertemuanService->getPertemuan();
         return view('dashboard.pertemuan.index', compact('pertemuan'));
     }
     public function create()
@@ -19,7 +25,7 @@ class PertemuanController extends Controller
     }
     public function store(Request $request)
     {
-        Pertemuan::create($request->all());
+        $this->pertemuanService->createPertemuan($request->all());
         return redirect()->route('pertemuan.index');
     }
     public function edit(Pertemuan $pertemuan)
@@ -28,15 +34,12 @@ class PertemuanController extends Controller
     }
     public function update(Request $request, pertemuan $pertemuan)
     {
-        $pertemuan->tanggal = $request->tanggal;
-        $pertemuan->kelas_id = $request->kelas_id;
-        $pertemuan->user_id = $request->user_id;
-        $pertemuan->save();
+        $this->pertemuanService->updatePertemuan($request->all(), $pertemuan);
         return redirect()->route('pertemuan.index');
     }
     public function destroy(Pertemuan $pertemuan)
     {
-        $pertemuan->delete();
+        $this->pertemuanService->deletePertemuan($pertemuan);
         return redirect()->route('pertemuan.index');
     }
 }

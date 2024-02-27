@@ -5,23 +5,29 @@ namespace App\Http\Controllers;
 use App\Models\Kehadiran;
 use App\Models\Pertemuan;
 use App\Models\User;
+use App\Services\KehadiranService;
 use Illuminate\Http\Request;
 
 class KehadiranController extends Controller
 {
+    protected $kehadiranService;
+    public function __construct(KehadiranService $kehadiranService)
+    {
+        $this->kehadiranService = $kehadiranService;
+    }
     public function index()
     {
-        $kehadiran = Kehadiran::with(['user', 'pertemuan'])->get();
+        $kehadiran = $this->kehadiranService->getKehadiran();
         return view('dashboard.kehadiran.index', compact('kehadiran'));
-    }
-    public function store(Request $request)
-    {
-        Kehadiran::create($request->all());
-        return redirect()->route('kehadiran.index');
     }
     public function create()
     {
         return view('dashboard.kehadiran.create', ['pertemuan' => Pertemuan::all(), 'users' => User::all()]);
+    }
+    public function store(Request $request)
+    {
+        $this->kehadiranService->createKehadiran($request->all());
+        return redirect()->route('kehadiran.index');
     }
     public function edit(Kehadiran $kehadiran)
     {
@@ -29,12 +35,12 @@ class KehadiranController extends Controller
     }
     public function update(Request $request, Kehadiran $kehadiran)
     {
-        $kehadiran->update($request->all());
+        $this->kehadiranService->updateKehadiran($request->all(), $kehadiran);
         return redirect()->route('kehadiran.index');
     }
     public function destroy(Kehadiran $kehadiran)
     {
-        $kehadiran->delete();
+        $this->kehadiranService->deleteKehadiran($kehadiran);
         return redirect()->route('kehadiran.index');
     }
 }

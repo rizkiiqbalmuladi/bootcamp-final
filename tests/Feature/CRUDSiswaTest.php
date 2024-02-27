@@ -98,6 +98,9 @@ class CRUDSiswaTest extends TestCase
     /** @test */
     public function user_can_update_siswa()
     {
+        Kelas::create([
+            'name' => 'RPL 1',
+        ]);
         Role::create([
             'name' => 'admin'
         ]);
@@ -112,6 +115,7 @@ class CRUDSiswaTest extends TestCase
             'alamat' => 'Caringin',
             'password' => bcrypt('password'),
             'role_id' => 1,
+            'kelas_id' => 1,
         ]);
 
         Kelas::create([
@@ -127,6 +131,7 @@ class CRUDSiswaTest extends TestCase
             'alamat' => 'Caringin Edited',
             'password' => bcrypt('password'),
             'role_id' => 2,
+            'kelas_id' => 1,
         ]);
         $this->seeRouteIs('guru.index');
         $this->seeInDatabase('users', [
@@ -134,6 +139,7 @@ class CRUDSiswaTest extends TestCase
             'username' => 'Rizki Iqbal Edited',
             'alamat' => 'Caringin Edited',
             'role_id' => 2,
+            'kelas_id' => 1,
         ]);
     }
     /** @test  */

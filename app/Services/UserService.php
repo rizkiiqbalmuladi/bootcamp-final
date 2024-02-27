@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 
-class UserService
+class UserService implements UserServiceInterface
 {
     public function getUserByRoleId($role_id)
     {

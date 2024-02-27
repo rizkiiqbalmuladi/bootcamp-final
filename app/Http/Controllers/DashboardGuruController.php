@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Kelas;
-use App\Services\UserService;
 use Illuminate\Http\Request;
+use App\Services\UserService;
+use App\Http\Requests\UserRequest;
 
 class DashboardGuruController extends Controller
 {
@@ -26,16 +27,9 @@ class DashboardGuruController extends Controller
     {
         return view('dashboard.guru.create', ['role' => Role::where('name', '<>', 'admin')->get(), 'kelas' => Kelas::all()]);
     }
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'username' => 'required|max:255',
-            'password' => 'required|min:8',
-            'alamat' => 'max:255',
-            'role_id' => 'required',
-            'kelas_id' => 'required'
-        ]);
+        $validatedData = $request->validated();
         $validatedData['password'] = bcrypt($validatedData['password']);
         $this->userService->createUser($validatedData);
         return redirect('/guru')->with('success', 'Data berhasil ditambahkan!');
@@ -44,9 +38,10 @@ class DashboardGuruController extends Controller
     {
         return view('dashboard.guru.edit', ['user' => $user, 'role' => Role::where('name', '<>', 'admin')->get(), 'kelas' => Kelas::all()]);
     }
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        $this->userService->updateUser($request->all(), $user);
+        $validatedData = $request->validated();
+        $this->userService->updateUser($validatedData, $user);
         return redirect()->route('guru.index');
     }
     public function destroy(User $user)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sarpras;
 use Illuminate\Http\Request;
+use App\Http\Requests\SarprasRequest;
 
 class SarprasController extends Controller
 {
@@ -16,28 +17,19 @@ class SarprasController extends Controller
     {
         return view('dashboard.sarpras.create');
     }
-    public function store(Request $request)
+    public function store(SarprasRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'quantity' => 'required',
-            'ruangan' => 'required',
-        ]);
-        Sarpras::create($request->all());
+
+        Sarpras::create($request->validated());
         return redirect()->route('sarpras.index')->with('success', 'Data berhasil ditambahkan');
     }
     public function edit(Sarpras $sarpras)
     {
         return view('dashboard.sarpras.edit', ['sarpras' => $sarpras]);
     }
-    public function update(Request $request, Sarpras $sarpras)
+    public function update(SarprasRequest $request, Sarpras $sarpras)
     {
-        $request->validate([
-            'name' => 'required',
-            'quantity' => 'required',
-            'ruangan' => 'required',
-        ]);
-        $sarpras->update($request->all());
+        $sarpras->update($request->validated());
         return redirect()->route('sarpras.index')->with('success', 'Data berhasil diupdate');
     }
     public function destroy(Sarpras $sarpras)

@@ -93,6 +93,9 @@ class CrudGuruTest extends TestCase
     /** @test */
     public function user_can_update_guru()
     {
+        Kelas::create([
+            'name' => 'RPL 1',
+        ]);
         Role::create([
             'name' => 'admin'
         ]);
@@ -122,6 +125,7 @@ class CrudGuruTest extends TestCase
             'alamat' => 'Caringin Edited',
             'password' => bcrypt('password'),
             'role_id' => 2,
+            'kelas_id' => 1
         ]);
         $this->seeRouteIs('guru.index');
         $this->seeInDatabase('users', [
@@ -129,6 +133,7 @@ class CrudGuruTest extends TestCase
             'username' => 'Rizki Iqbal Edited',
             'alamat' => 'Caringin Edited',
             'role_id' => 2,
+            'kelas_id' => 1
         ]);
     }
     /** @test  */

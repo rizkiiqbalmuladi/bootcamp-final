@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -10,13 +11,10 @@ class LoginController extends Controller
     {
         return view('login');
     }
-    public function store()
+    public function store(LoginRequest $request)
     {
-        $this->validate(request(), [
-            'username' => 'required',
-            'password' => 'required'
-        ]);
-        if (!auth()->attempt(request(['username', 'password']))) {
+        $validated = $request->validated();
+        if (!auth()->attempt($validated)) {
             return back()->withErrors([
                 'message' => 'Please check your credentials'
             ]);
