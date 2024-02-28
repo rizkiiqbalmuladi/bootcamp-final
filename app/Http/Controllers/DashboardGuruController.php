@@ -6,17 +6,15 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
-use App\Services\UserService;
 use App\Http\Requests\UserRequest;
+use App\Services\UserServiceInterface;
 
 class DashboardGuruController extends Controller
 {
     public $role_id;
-    protected $userService;
-    public function __construct(UserService $userService)
+    public function __construct(protected UserServiceInterface $userService)
     {
         $this->role_id = 2;
-        $this->userService = $userService;
     }
     public function index()
     {

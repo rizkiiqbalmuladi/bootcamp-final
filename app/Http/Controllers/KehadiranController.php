@@ -5,15 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Kehadiran;
 use App\Models\Pertemuan;
 use App\Models\User;
-use App\Services\KehadiranService;
+use App\Services\KehadiranServiceInterface;
 use Illuminate\Http\Request;
 
 class KehadiranController extends Controller
 {
-    protected $kehadiranService;
-    public function __construct(KehadiranService $kehadiranService)
+    public function __construct(protected KehadiranServiceInterface $kehadiranService)
     {
-        $this->kehadiranService = $kehadiranService;
     }
     public function index()
     {

@@ -4,15 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Sekolah;
 use Illuminate\Http\Request;
-use App\Services\SekolahService;
 use App\Http\Requests\SekolahRequest;
+use App\Services\SekolahServiceInterface;
 
 class DashboardController extends Controller
 {
-    protected $sekolahService;
-    public function __construct(SekolahService $sekolahService)
+    public function __construct(protected SekolahServiceInterface $sekolahService)
     {
-        $this->sekolahService = $sekolahService;
     }
     public function index()
     {

@@ -3,18 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Services\LoginServiceInterface;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+    public function __construct(protected LoginServiceInterface $loginService)
+    {
+    }
     public function index()
     {
         return view('login');
     }
     public function store(LoginRequest $request)
     {
-        $validated = $request->validated();
-        if (!auth()->attempt($validated)) {
+        if (!$this->loginService->login($request->validated())) {
             return back()->withErrors([
                 'message' => 'Please check your credentials'
             ]);

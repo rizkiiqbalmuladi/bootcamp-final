@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\UserService;
+use App\Services\UserServiceInterface;
 
 class DashboardSiswaController extends Controller
 {
     public $role_id;
-    protected $userService;
-    public function __construct(UserService $userService)
+    public function __construct(protected UserServiceInterface $userService)
     {
         $this->role_id = 3;
-        $this->userService = $userService;
     }
     public function index()
     {

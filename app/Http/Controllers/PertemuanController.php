@@ -4,15 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelas;
 use App\Models\Pertemuan;
-use App\Services\PertemuanService;
+use App\Services\PertemuanServiceInterface;
 use Illuminate\Http\Request;
 
 class PertemuanController extends Controller
 {
-    protected $pertemuanService;
-    public function __construct(PertemuanService $pertemuanService)
+    public function __construct(protected PertemuanServiceInterface $pertemuanService)
     {
-        $this->pertemuanService = $pertemuanService;
     }
     public function index()
     {
