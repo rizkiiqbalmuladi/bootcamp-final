@@ -7,12 +7,14 @@ use App\Services\SarprasService;
 use App\Services\SekolahService;
 use App\Services\KehadiranService;
 use App\Services\PertemuanService;
+use App\Services\LoginService;
 use App\Services\UserServiceInterface;
 use Illuminate\Support\ServiceProvider;
 use App\Services\SarprasServiceInterface;
 use App\Services\SekolahServiceInterface;
 use App\Services\KehadiranServiceInterface;
 use App\Services\PertemuanServiceInterface;
+use App\Services\LoginServiceInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SarprasServiceInterface::class, SarprasService::class);
         $this->app->bind(KehadiranServiceInterface::class, KehadiranService::class);
         $this->app->bind(PertemuanServiceInterface::class, PertemuanService::class);
+        $this->app->bind(LoginServiceInterface::class, LoginService::class);
     }
 
     /**
